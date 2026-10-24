@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Employee Management System",
-  description: "Sign in or create your Employee Management System account.",
+  title: "NEXT TEMPLATE",
+  description: "Sign in or create your account.",
   icons: {
     icon: "/assets/logo/logo-dark.png",
   },
