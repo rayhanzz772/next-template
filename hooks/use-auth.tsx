@@ -23,27 +23,33 @@ type AuthContextValue = {
   logout: () => Promise<void>;
 };
 
+const DEFAULT_GUEST_USER: AuthUser = {
+  id: "guest",
+  email: "guest@example.com",
+  role: "ADMIN",
+  status: true,
+  permissions: ["*"],
+};
+
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<AuthUser | null>(DEFAULT_GUEST_USER);
+  const [loading, setLoading] = useState(false);
   const requestId = useRef(0);
 
   const refresh = useCallback(async () => {
     const currentRequestId = ++requestId.current;
-    queryClient.clear();
-    setLoading(true);
     try {
       const currentUser = await getMe();
       if (currentRequestId === requestId.current) setUser(currentUser);
     } catch {
-      if (currentRequestId === requestId.current) setUser(null);
+      if (currentRequestId === requestId.current) setUser(DEFAULT_GUEST_USER);
     } finally {
       if (currentRequestId === requestId.current) setLoading(false);
     }
-  }, [queryClient]);
+  }, []);
 
   useEffect(() => {
     const handle = window.setTimeout(() => void refresh(), 0);

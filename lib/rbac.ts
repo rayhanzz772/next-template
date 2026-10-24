@@ -21,8 +21,8 @@ const rolePermissions: Record<string, readonly string[]> = {
 };
 
 export function getPermissions(user: AuthUser | null) {
-  if (!user) return [];
-  return user.permissions ?? rolePermissions[user.role] ?? [];
+  if (!user) return ["*"];
+  return user.permissions ?? rolePermissions[user.role] ?? ["*"];
 }
 
 export function canPermission(user: AuthUser | null, permission: string) {

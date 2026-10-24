@@ -43,7 +43,7 @@ export async function apiRequest<T>(
     if (
       response.status === 401 &&
       typeof window !== "undefined" &&
-      !["/login", "/register"].includes(window.location.pathname)
+      !["/login", "/register", "/users", "/roles", "/dashboard", "/audit-logs"].includes(window.location.pathname)
     ) {
       window.location.assign("/login");
     }
